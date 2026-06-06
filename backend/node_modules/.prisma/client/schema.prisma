@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String       @id @default(cuid())
+  email     String       @unique
+  password  String
+  name      String
+  createdAt DateTime     @default(now())
+  rooms     RoomMember[]
+  messages  Message[]
+}
+
+model Room {
+  id        String       @id @default(cuid())
+  name      String
+  createdAt DateTime     @default(now())
+  members   RoomMember[]
+  files     File[]
+  messages  Message[]
+}
+
+model RoomMember {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  room   Room   @relation(fields: [roomId], references: [id])
+  roomId String
+}
+
+model File {
+  id        String        @id @default(cuid())
+  name      String
+  content   String        @default("")
+  language  String        @default("javascript")
+  room      Room          @relation(fields: [roomId], references: [id])
+  roomId    String
+  updatedAt DateTime      @updatedAt
+  versions  FileVersion[]
+}
+
+model FileVersion {
+  id      String   @id @default(cuid())
+  content String
+  savedAt DateTime @default(now())
+  file    File     @relation(fields: [fileId], references: [id])
+  fileId  String
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  roomId    String
+}
