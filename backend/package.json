@@ -1,12 +1,14 @@
 {
   "name": "collab-editor-backend",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
   "dev": "nodemon src/index.js",
   "start": "node src/index.js",
   "prisma:generate": "npx --yes prisma generate"
-},
+}, 
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "bcryptjs": "^2.4.3",
