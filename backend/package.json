@@ -7,7 +7,7 @@
   "scripts": {
   "dev": "nodemon src/index.js",
   "start": "node src/index.js",
-  "prisma:generate": "npx --yes prisma generate"
+  "build": "node node_modules/prisma/build/index.js generate"
 }, 
   "dependencies": {
     "@prisma/client": "^5.0.0",
